@@ -1,5 +1,6 @@
 ﻿using Filminurk.Data;
 using Filminurk.Models.Movies;
+using Filminurk.Core.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Filminurk.Controllers
@@ -30,6 +31,32 @@ namespace Filminurk.Controllers
         {
             MoviesCreateViewModel result = new();
             return View("Create",result);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(MoviesCreateViewModel vm)
+        {
+            var dto = new MoviesDTO()
+            {
+                ID = vm.ID,
+                Title = vm.Title,
+                FirstPublished = vm.FirstPublished,
+                Genre = vm.Genre,
+                CurrentRating = vm.CurrentRating,
+                Warnings = vm.Warnings,
+                Actors = vm.Actors,
+                EntryCreatedAt = vm.EntryCreatedAt,
+                EntryModifiedAt = vm.EntryModifiedAt,
+                Director = vm.Director,
+                Tagline = vm.Tagline,
+                Description = vm.Description,
+            };
+            var result = await _context.Create(dto);
+            if (result == null)
+            {
+                RedirectToAction(nameof(Index));
+            }
+            RedirectToAction(nameof(Index));
         }
     }
 }
