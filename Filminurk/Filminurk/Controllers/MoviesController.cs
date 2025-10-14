@@ -2,15 +2,18 @@
 using Filminurk.Models.Movies;
 using Filminurk.Core.Dto;
 using Microsoft.AspNetCore.Mvc;
+using Filminurk.Core.ServiceInterface;
 
 namespace Filminurk.Controllers
 {
     public class MoviesController : Controller
     {
         private readonly FilminurkTARpe24Context _context;
-        public MoviesController (FilminurkTARpe24Context context)
+        private readonly IMovieServices _movieServices;
+        public MoviesController (FilminurkTARpe24Context context, IMovieServices movieServices)
         {
             _context = context;
+            _movieServices = movieServices;
         }
         public IActionResult Index()
         {
@@ -51,12 +54,12 @@ namespace Filminurk.Controllers
                 Tagline = vm.Tagline,
                 Description = vm.Description,
             };
-            var result = await _context.Create(dto);
+            var result = await _movieServices.Create(dto);
             if (result == null)
             {
-                RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
             }
-            RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index));
         }
     }
 }
