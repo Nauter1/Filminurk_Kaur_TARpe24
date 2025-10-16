@@ -2,7 +2,7 @@
 
 namespace Filminurk.Models.Movies
 {
-    public class MoviesCreateViewModel
+    public class MoviesCreateUpdateViewModel
     {
         public Guid ID { get; set; }
         public string Title { get; set; }
@@ -18,5 +18,6 @@ namespace Filminurk.Models.Movies
         /* Andmebaasi jaoks vajalikud */
         public DateTime? EntryCreatedAt { get; set; }
         public DateTime? EntryModifiedAt { get; set; }
+
     }
 }

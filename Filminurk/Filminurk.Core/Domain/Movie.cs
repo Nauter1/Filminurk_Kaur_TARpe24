@@ -19,5 +19,7 @@ namespace Filminurk.Core.Domain
         public Genre? Genre { get; set; }
         public string? Tagline { get; set; }
         public string? Warnings { get; set; }
+        public DateTime? EntryCreatedAt { get; set; }
+        public DateTime? EntryModifiedAt { get; set; }
     }
 }

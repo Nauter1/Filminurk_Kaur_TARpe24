@@ -42,5 +42,32 @@ namespace Filminurk.ApplicationServices.Services
             var result = await _context.Movies.FirstOrDefaultAsync(x => x.ID==id);
             return result;
         }
+        public async Task<Movie> Update(MoviesDTO dto)
+        {
+            Movie movie = new Movie();
+            movie.ID = (Guid)dto.ID;
+            movie.Title = dto.Title;
+            movie.Description = dto.Description;
+            movie.Warnings = dto.Warnings;
+            movie.FirstPublished = (DateOnly)dto.FirstPublished;
+            movie.Actors = dto.Actors;
+            movie.Genre = dto.Genre;
+            movie.Director = dto.Director;
+            movie.Tagline = dto.Tagline;
+            movie.EntryCreatedAt = DateTime.Now;
+            movie.EntryModifiedAt = DateTime.Now;
+
+            _context.Movies.Update(movie);
+            await _context.SaveChangesAsync();
+            return movie;
+        }
+
+        public async Task<Movie> Delete(Guid ID)
+        {
+            var result = await _context.Movies.FirstOrDefaultAsync(m => m.ID == ID);
+            _context.Movies.Remove(result);
+            await _context.SaveChangesAsync();
+            return result;
+        }
     }
 }
