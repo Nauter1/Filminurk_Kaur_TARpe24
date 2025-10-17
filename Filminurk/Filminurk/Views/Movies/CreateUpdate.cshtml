@@ -1,21 +1,14 @@
 ﻿@using Filminurk.Core.Domain
 @using Filminurk.Models.Movies
 
-@model Filminurk.Models.Movies.MoviesCreateViewModel
+@model Filminurk.Models.Movies.MoviesCreateUpdateViewModel
 
-@if(Model.ID.HasValue)
-{
-	<h1>Muuda Film</h1>
-}
-
-else (Model.ID.HasValue)
-{
 <h1>Lisa Film</h1>
 <div>
 	<form method="post" enctype="multipart/form-data">
 		<input asp-for="ID" type="hidden" />
-		<input asp-for="EntryCreatedAt" type="hidden" />
-		<input asp-for="EntryModifiedAt" type="hidden" />
+
+
 		<div class="form-group row">
 			<label asp-for="Title" class="col-sm-2 col-form-label"></label>
 			<div class="col-sm-10">
@@ -68,9 +61,17 @@ else (Model.ID.HasValue)
 				</select>
 			</div>
 		</div>
-		<input asp-action="Create" asp-controller="Movies" type="submit" class="btn btn-primary" value="Create" />
+		@if (Model.ID == Guid.Empty)
+		{
+			<input asp-for="EntryCreatedAt" type="hidden" />
+			<input asp-action="Create" asp-controller="Movies" type="submit" class="btn btn-primary" value="Create" />
+		}
+		else
+		{
+
+			<input asp-action="Update" asp-controller="Movies" type="submit" class="btn btn-primary" value="Update" />
+			<input asp-for="EntryModifiedAt" type="hidden" />
+		}
 	</form>
 
 </div>
-}
-
