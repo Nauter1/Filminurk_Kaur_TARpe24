@@ -9,8 +9,12 @@ using Microsoft.EntityFrameworkCore;
 namespace Filminurk.Data
 {
     public class FilminurkTARpe24Context : DbContext
-    {   
+    {
+        public readonly object FilesToApi;
+
         public FilminurkTARpe24Context(DbContextOptions<FilminurkTARpe24Context> options) : base(options) { }
         public DbSet<Movie> Movies { get; set; }
+
+        public DbSet<FileToApi> FileToApi { get; set; }
     }
 }

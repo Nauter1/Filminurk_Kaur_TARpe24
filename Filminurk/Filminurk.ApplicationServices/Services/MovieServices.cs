@@ -14,6 +14,7 @@ namespace Filminurk.ApplicationServices.Services
     public class MovieServices : IMovieServices
     {
         private readonly FilminurkTARpe24Context _context;
+        private readonly IFileServices _fileServices;
         public MovieServices(FilminurkTARpe24Context context) 
         {
             _context = context;
@@ -31,8 +32,9 @@ namespace Filminurk.ApplicationServices.Services
             movie.Genre = dto.Genre;
             movie.Director = dto.Director;
             movie.Tagline = dto.Tagline;
-           // movie.EntryCreatedAt = DateTime.Now;
-           // movie.EntryModifiedAt = DateTime.Now;
+            // movie.EntryCreatedAt = DateTime.Now;
+            // movie.EntryModifiedAt = DateTime.Now;
+            _fileServices.FilesToApi(dto, movie);
            await _context.Movies.AddAsync(movie);
            await _context.SaveChangesAsync();
            return movie;
@@ -65,6 +67,7 @@ namespace Filminurk.ApplicationServices.Services
         public async Task<Movie> Delete(Guid ID)
         {
             var result = await _context.Movies.FirstOrDefaultAsync(m => m.ID == ID);
+            var images = await _context.FileToApi.Where(x => x.MovieID == ID).Select(y => new FileToApiDTO { ImageID = y.ImageID, MovieID = y.MovieID, FilePath = y.ExistingFilePath }).ToArrayAsync();
             _context.Movies.Remove(result);
             await _context.SaveChangesAsync();
             return result;

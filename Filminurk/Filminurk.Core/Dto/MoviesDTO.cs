@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Filminurk.Core.Domain;
+using Microsoft.AspNetCore.Http;
 
 namespace Filminurk.Core.Dto
 {
@@ -16,6 +17,9 @@ namespace Filminurk.Core.Dto
         public string? Director { get; set; }
         public List<string>? Actors { get; set; }
         public double? CurrentRating { get; set; }
+
+        public List<IFormFile> Files { get; set; }
+        public IEnumerable<FileToApiDTO> Images { get; set; } =  new List<FileToApiDTO>();
 
         public Genre? Genre { get; set; }
         public string? Tagline { get; set; }

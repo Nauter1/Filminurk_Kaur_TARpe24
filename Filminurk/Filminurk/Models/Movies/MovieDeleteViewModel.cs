@@ -12,6 +12,8 @@ namespace Filminurk.Models.Movies
         public List<string>? Actors { get; set; }
         public double? CurrentRating { get; set; }
 
+        public List<ImageViewModel> Images { get; set; } = new List<ImageViewModel>();
+
         public Genre? Genre { get; set; }
         public string? Tagline { get; set; }
         public string? Warnings { get; set; }

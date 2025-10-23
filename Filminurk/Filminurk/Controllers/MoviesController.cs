@@ -8,6 +8,8 @@ using Filminurk.Core.Domain;
 using System.Diagnostics;
 using System.IO;
 using Microsoft.Extensions.Logging.Abstractions;
+using Filminurk.ApplicationServices.Services;
+using Microsoft.Extensions.FileSystemGlobbing;
 
 namespace Filminurk.Controllers
 {
@@ -15,10 +17,12 @@ namespace Filminurk.Controllers
     {
         private readonly FilminurkTARpe24Context _context;
         private readonly IMovieServices _movieServices;
-        public MoviesController(FilminurkTARpe24Context context, IMovieServices movieServices)
+        private readonly IFileServices _fileServices;
+        public MoviesController(FilminurkTARpe24Context context, IMovieServices movieServices, IFileServices fileServices)
         {
             _context = context;
             _movieServices = movieServices;
+            _fileServices = fileServices;
         }
         public IActionResult Index()
         {
@@ -58,6 +62,8 @@ namespace Filminurk.Controllers
                 Director = vm.Director,
                 Tagline = vm.Tagline,
                 Description = vm.Description,
+                Files = vm.Files,
+                Images = vm.Images.Select(x => new FileToApiDTO { ImageID = x.ImageID, FilePath = x.FilePath, MovieID = x.MovieID, IsPoster = x.IsPoster }).ToArray(),
             };
             var result = await _movieServices.Create(dto);
             if (result == null)
@@ -102,6 +108,8 @@ namespace Filminurk.Controllers
             }
             var vm = new MoviesCreateUpdateViewModel();
 
+            var images = await _context.FileToApi.Where(x=>x.MovieID== id).Select(y => new ImageViewModel { FilePath=y.ExistingFilePath, ImageID = id }).ToArrayAsync();
+
             vm.ID = movie.ID;
             vm.Title = movie.Title;
             vm.FirstPublished = movie.FirstPublished;
@@ -114,6 +122,7 @@ namespace Filminurk.Controllers
             vm.Director = movie.Director;
             vm.Tagline = movie.Tagline;
             vm.Description = movie.Description;
+            vm.Images.AddRange(images);
             return View("CreateUpdate",vm);
         }
         [HttpPost]
@@ -133,6 +142,8 @@ namespace Filminurk.Controllers
                 Director = vm.Director,
                 Tagline = vm.Tagline,
                 Description = vm.Description,
+                Files = vm.Files,
+                Images = vm.Images.Select(x => new FileToApiDTO { ImageID = x.ImageID, FilePath = x.FilePath, MovieID = x.MovieID, IsPoster = x.IsPoster }).ToArray(),
             };
             var result = await _movieServices.Update(dto);
             if(result == null)
@@ -150,6 +161,8 @@ namespace Filminurk.Controllers
             {
                 return NotFound();
             }
+
+            var images = await _context.FileToApi.Where(x => x.MovieID == ID).Select(y => new ImageViewModel { FilePath = y.ExistingFilePath, ImageID = y.ImageID }).ToArrayAsync();
             var vm = new MovieDeleteViewModel();
 
             vm.ID = movie.ID;
