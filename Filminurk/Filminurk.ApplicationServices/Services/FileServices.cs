@@ -66,7 +66,7 @@ namespace Filminurk.ApplicationServices.Services
                 File.Delete(filePath);
             }
 
-            _context.FilesToApi.Remove(imageID);
+            _context.FileToApi.Remove(imageID);
             await _context.SaveChangesAsync();
 
             return null;
