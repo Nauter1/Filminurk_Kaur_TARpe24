@@ -13,7 +13,7 @@ namespace Filminurk.Models.Movies
         public double? CurrentRating { get; set; }
 
         public List<IFormFile> Files { get; set; }
-        public List<ImageViewModel> Images { get; set; }
+        public List<ImageViewModel> Images { get; set; } = new List<ImageViewModel>();
 
         public Genre? Genre { get; set; }
         public string? Tagline { get; set; }

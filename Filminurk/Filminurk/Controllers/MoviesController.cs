@@ -68,7 +68,11 @@ namespace Filminurk.Controllers
             var result = await _movieServices.Create(dto);
             if (result == null)
             {
-                return RedirectToAction(nameof(Index));
+                return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
             }
             return RedirectToAction(nameof(Index));
         }
@@ -81,6 +85,7 @@ namespace Filminurk.Controllers
             {
                 return NotFound();
             }
+            ImageViewModel[] images = await FileFromDatabase(id);
             var vm = new MoviesDetailsViewModel();
             vm.ID = movie.ID;
             vm.Title = movie.Title;
@@ -94,6 +99,7 @@ namespace Filminurk.Controllers
             vm.Director = movie.Director;
             vm.Tagline = movie.Tagline;
             vm.Description = movie.Description;
+            vm.Images.AddRange(images);
             return View(vm);
         }
 
@@ -189,5 +195,9 @@ namespace Filminurk.Controllers
             return RedirectToAction(nameof(Index));
 
         } 
+        private async Task<ImageViewModel[]> FileFromDatabase(Guid ID)
+        {
+            return await _context.FileToApi.Where(x => x.MovieID == ID).Select(y => new ImageViewModel{ ImageID = y.ImageID, MovieID = y.MovieID, IsPoster = y.IsPoster, FilePath = y.ExistingFilePath }).ToArrayAsync();
+        }
     }
 }
