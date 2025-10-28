@@ -8,7 +8,7 @@ using Filminurk.Core.Dto;
 
 namespace Filminurk.Core.ServiceInterface
 {
-    public interface IFileServices
+    public interface IFilesServices
     {
         void FilesToApi(MoviesDTO dto, Movie domain);
 

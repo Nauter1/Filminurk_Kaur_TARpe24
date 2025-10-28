@@ -14,7 +14,7 @@ namespace Filminurk.ApplicationServices.Services
     public class MovieServices : IMovieServices
     {
         private readonly FilminurkTARpe24Context _context;
-        private readonly IFileServices _fileServices;
+        private readonly IFilesServices _filesServices; // failid
         public MovieServices(FilminurkTARpe24Context context) 
         {
             _context = context;
@@ -22,6 +22,7 @@ namespace Filminurk.ApplicationServices.Services
 
         public async Task<Movie> Create(MoviesDTO dto)
         {
+            
             Movie movie = new Movie();
             movie.ID=Guid.NewGuid();
             movie.Title = dto.Title;
@@ -32,12 +33,17 @@ namespace Filminurk.ApplicationServices.Services
             movie.Genre = dto.Genre;
             movie.Director = dto.Director;
             movie.Tagline = dto.Tagline;
-            // movie.EntryCreatedAt = DateTime.Now;
-            // movie.EntryModifiedAt = DateTime.Now;
-            _fileServices.FilesToApi(dto, movie);
-           await _context.Movies.AddAsync(movie);
-           await _context.SaveChangesAsync();
-           return movie;
+            movie.EntryCreatedAt = DateTime.Now;
+            movie.EntryModifiedAt = DateTime.Now;
+            if (dto.Images != null)
+            {
+                _filesServices.FilesToApi(dto, movie);
+            await _context.Movies.AddAsync(movie);
+            await _context.SaveChangesAsync();
+            return movie;
+            }
+            return null;
+            
         }
         public async Task<Movie> DetailsAsync(Guid id)
         {

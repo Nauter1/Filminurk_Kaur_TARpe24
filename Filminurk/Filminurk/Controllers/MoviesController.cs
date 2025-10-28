@@ -17,8 +17,8 @@ namespace Filminurk.Controllers
     {
         private readonly FilminurkTARpe24Context _context;
         private readonly IMovieServices _movieServices;
-        private readonly IFileServices _fileServices;
-        public MoviesController(FilminurkTARpe24Context context, IMovieServices movieServices, IFileServices fileServices)
+        private readonly IFilesServices _fileServices;
+        public MoviesController(FilminurkTARpe24Context context, IMovieServices movieServices, IFilesServices fileServices)
         {
             _context = context;
             _movieServices = movieServices;
@@ -38,6 +38,7 @@ namespace Filminurk.Controllers
             });
             return View(result);
         }
+
         [HttpGet]
         public IActionResult Create()
         {
@@ -45,36 +46,48 @@ namespace Filminurk.Controllers
             return View("CreateUpdate", result);
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(MoviesCreateUpdateViewModel vm)
         {
-            var dto = new MoviesDTO()
+            if (ModelState.IsValid)
             {
-                ID = vm.ID,
-                Title = vm.Title,
-                FirstPublished = vm.FirstPublished,
-                Genre = vm.Genre,
-                CurrentRating = vm.CurrentRating,
-                Warnings = vm.Warnings,
-                Actors = vm.Actors,
-                EntryCreatedAt = vm.EntryCreatedAt,
-                EntryModifiedAt = vm.EntryModifiedAt,
-                Director = vm.Director,
-                Tagline = vm.Tagline,
-                Description = vm.Description,
-                Files = vm.Files,
-                Images = vm.Images.Select(x => new FileToApiDTO { ImageID = x.ImageID, FilePath = x.FilePath, MovieID = x.MovieID, IsPoster = x.IsPoster }).ToArray(),
-            };
-            var result = await _movieServices.Create(dto);
-            if (result == null)
-            {
-                return NotFound();
+                var dto = new MoviesDTO()
+                {
+                    ID = vm.ID,
+                    Title = vm.Title,
+                    Description = vm.Description,
+                    FirstPublished = vm.FirstPublished,
+                    Director = vm.Director,
+                    Actors = vm.Actors,
+                    CurrentRating = vm.CurrentRating,
+                    Warnings = vm.Warnings,
+                    Genre = vm.Genre,
+                    Tagline = vm.Tagline,
+                    EntryCreatedAt = vm.EntryCreatedAt,
+                    EntryModifiedAt = vm.EntryModifiedAt,
+                    Files = vm.Files,
+                    Images = vm.Images
+                    .Select(x => new FileToApiDTO
+                    {
+                        ImageID = x.ImageID,
+                        FilePath = x.FilePath,
+                        MovieID = x.MovieID,
+                        IsPoster = x.IsPoster,
+                    }).ToArray()
+                };
+                var result = await _movieServices.Create(dto);
+                if (result == null)
+                {
+                    return NotFound();
+                }
+                if (!ModelState.IsValid)
+                {
+                    return NotFound();
+                }
+                return RedirectToAction(nameof(Index));
             }
-            if (!ModelState.IsValid)
-            {
-                return NotFound();
-            }
+
             return RedirectToAction(nameof(Index));
+
         }
 
         [HttpGet]
