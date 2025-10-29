@@ -127,7 +127,7 @@ namespace Filminurk.Controllers
             }
             var vm = new MoviesCreateUpdateViewModel();
 
-            var images = await _context.FileToApi.Where(x=>x.MovieID== id).Select(y => new ImageViewModel { FilePath=y.ExistingFilePath, ImageID = id }).ToArrayAsync();
+            var images = await _context.FilesToApi.Where(x=>x.MovieID== id).Select(y => new ImageViewModel { FilePath=y.ExistingFilePath, ImageID = id }).ToArrayAsync();
 
             vm.ID = movie.ID;
             vm.Title = movie.Title;
@@ -181,7 +181,7 @@ namespace Filminurk.Controllers
                 return NotFound();
             }
 
-            var images = await _context.FileToApi.Where(x => x.MovieID == ID).Select(y => new ImageViewModel { FilePath = y.ExistingFilePath, ImageID = y.ImageID }).ToArrayAsync();
+            var images = await _context.FilesToApi.Where(x => x.MovieID == ID).Select(y => new ImageViewModel { FilePath = y.ExistingFilePath, ImageID = y.ImageID }).ToArrayAsync();
             var vm = new MovieDeleteViewModel();
 
             vm.ID = movie.ID;
@@ -210,7 +210,7 @@ namespace Filminurk.Controllers
         } 
         private async Task<ImageViewModel[]> FileFromDatabase(Guid ID)
         {
-            return await _context.FileToApi.Where(x => x.MovieID == ID).Select(y => new ImageViewModel{ ImageID = y.ImageID, MovieID = y.MovieID, IsPoster = y.IsPoster, FilePath = y.ExistingFilePath }).ToArrayAsync();
+            return await _context.FilesToApi.Where(x => x.MovieID == ID).Select(y => new ImageViewModel{ ImageID = y.ImageID, MovieID = y.MovieID, IsPoster = y.IsPoster, FilePath = y.ExistingFilePath }).ToArrayAsync();
         }
     }
 }

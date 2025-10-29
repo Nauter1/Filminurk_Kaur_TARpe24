@@ -16,6 +16,8 @@ namespace Filminurk.Core.Domain
         public List<string>? Actors { get; set; }
         public double? CurrentRating { get; set; }
 
+        public List<UserComment>? Reviews { get; set; }
+
         public Genre? Genre { get; set; }
         public string? Tagline { get; set; }
         public string? Warnings { get; set; }

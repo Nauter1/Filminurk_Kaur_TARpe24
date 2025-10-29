@@ -77,10 +77,11 @@
 			@Html.DisplayFor(Model => Model.EntryModifiedAt)
 		</div>
 	</dl>
+
 	<dl>
-		@foreach (var image in Model.Images)
+		@foreach (var images in Model.Images)
 		{
-			<partial name="_images" model="image" />
+			<partial name="_Images" model="images" />
 		}
 	</dl>
 

@@ -80,7 +80,7 @@ namespace Filminurk.ApplicationServices.Services
                             MovieID = domain.ID,
                         };
 
-                        _context.FileToApi.Add(path);
+                        _context.FilesToApi.Add(path);
                     }
 
                 }
@@ -90,7 +90,7 @@ namespace Filminurk.ApplicationServices.Services
 
         public async Task<FileToApi> RemoveImageFromApi(FileToApiDTO dto)
             {
-                var imageID = await _context.FileToApi.FirstOrDefaultAsync(x => x.ImageID == dto.ImageID);
+                var imageID = await _context.FilesToApi.FirstOrDefaultAsync(x => x.ImageID == dto.ImageID);
 
             var filePath = _webHost.ContentRootPath + "\\wwwroot\\multipleFileUpload\\" + imageID.ExistingFilePath;
 
@@ -99,7 +99,7 @@ namespace Filminurk.ApplicationServices.Services
                 File.Delete(filePath);
             }
 
-            _context.FileToApi.Remove(imageID);
+            _context.FilesToApi.Remove(imageID);
             await _context.SaveChangesAsync();
 
             return null;
