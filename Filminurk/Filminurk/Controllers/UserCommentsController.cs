@@ -1,12 +1,29 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Filminurk.Data;
+using Filminurk.Models.UserComments;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Filminurk.Controllers
 {
     public class UserCommentsController : Controller
     {
+        private readonly FilminurkTARpe24Context _context;
+        public UserCommentsController(FilminurkTARpe24Context context)
+        {
+            _context = context;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            var result = _context.UserComments
+                .Select(c => new UserCommentIndexViewModel
+                {
+                    CommentID = c.CommentID,
+                    CommentBody = c.CommentBody,
+                    IsHarmFul = c.IsHarmFul,
+                    CommentCreatedAt = c.CommentCreatedAt,
+                }
+            );
+            return View(result);
         }
     }
 }
