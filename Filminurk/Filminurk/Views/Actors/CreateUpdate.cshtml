@@ -77,12 +77,12 @@ else
 		@if (Model.ID == Guid.Empty)
 		{
 			<input asp-for="EntryCreatedAt" type="hidden" />
-			<input asp-action="Create" asp-controller="Movies" type="submit" class="btn btn-primary" value="Create" />
+			<input asp-action="Create" asp-controller="Actors" type="submit" class="btn btn-primary" value="Create" />
 		}
 		else
 		{
 			<input asp-for="EntryModifiedAt" type="hidden" />
-			<input asp-action="Update" asp-controller="Movies" type="submit" class="btn btn-primary" value="Update" />
+			<input asp-action="Update" asp-controller="Actors" type="submit" class="btn btn-primary" value="Update" />
 
 		}
 	</form>
