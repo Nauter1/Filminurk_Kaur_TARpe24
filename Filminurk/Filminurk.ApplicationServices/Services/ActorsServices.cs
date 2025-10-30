@@ -34,7 +34,7 @@ namespace Filminurk.ApplicationServices.Services
             actors.LastName = dto.LastName;
             actors.NickName = dto.NickName;
             actors.MoviesActedFor = dto.MoviesActedFor;
-            actors.PortraitID = dto.PortraitID;
+            actors.PortraitID = dto.PortraitID.ToString();
             actors.ActorRating = dto.ActorRating;
             actors.Gender = dto.Gender;
             actors.FavoriteGenre = dto.FavoriteGenre;
@@ -62,7 +62,7 @@ namespace Filminurk.ApplicationServices.Services
             actors.LastName = dto.LastName;
             actors.NickName = dto.NickName;
             actors.MoviesActedFor = dto.MoviesActedFor;
-            actors.PortraitID = dto.PortraitID;
+            actors.PortraitID = dto.PortraitID.ToString();
             actors.ActorRating = dto.ActorRating;
             actors.Gender = dto.Gender;
             actors.FavoriteGenre = dto.FavoriteGenre;

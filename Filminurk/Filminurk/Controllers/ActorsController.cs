@@ -56,7 +56,16 @@ namespace Filminurk.Controllers
                     ActorRating = vm.ActorRating,
                     Gender = vm.Gender,
                     FavoriteGenre = vm.FavoriteGenre,
-                    PortraitID = vm.PortraitID
+                    Files = vm.Files,
+                    Images = vm.Images
+                    .Select(x => new FileToApiDTO
+                    {
+                        ImageID = x.ImageID,
+                        FilePath = x.FilePath,
+                        MovieID = x.MovieID,
+                        IsPoster = x.IsPoster,
+                    }).ToArray(),
+                    PortraitID = Guid.Parse(vm.PortraitID)
                     /*.Select(x => new FileToApiDTO
                     {
                         ImageID = x.ImageID,
@@ -141,7 +150,7 @@ namespace Filminurk.Controllers
                 ActorRating = vm.ActorRating,
                 Gender = vm.Gender,
                 FavoriteGenre = vm.FavoriteGenre,
-                PortraitID = vm.PortraitID
+                PortraitID = Guid.Parse(vm.PortraitID)
                 /*.Select(x => new FileToApiDTO
                 {
                     ImageID = x.ImageID,
