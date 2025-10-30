@@ -10,9 +10,9 @@ namespace Filminurk.Core.ServiceInterface
 {
     public interface IActorsServices
     {
-        Task<Movie> Create(ActorsDTO dto);
-        Task<Movie> Update(ActorsDTO dto);
-        Task<Movie> Delete(Guid id);
-        Task<Movie> DetailsAsync(Guid id);
+        Task<Actors> Create(ActorsDTO dto);
+        Task<Actors> Update(ActorsDTO dto);
+        //Task<Actors> Delete(Guid id);
+        Task<Actors> DetailsAsync(Guid id);
     }
 }

@@ -20,5 +20,7 @@ namespace Filminurk.Core.Dto
         public int? ActorRating { get; set; }
         public Gender? Gender { get; set; }
         public Genre? FavoriteGenre { get; set; }
+        public DateTime? EntryCreatedAt { get; set; }
+        public DateTime? EntryModifiedAt { get; set; }
     }
 }
