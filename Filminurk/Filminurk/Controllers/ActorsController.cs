@@ -3,6 +3,7 @@ using Filminurk.Core.Domain;
 using Filminurk.Core.Dto;
 using Filminurk.Core.ServiceInterface;
 using Filminurk.Data;
+using Filminurk.Data.Migrations;
 using Filminurk.Models.Actors;
 using Filminurk.Models.Movies;
 using Microsoft.AspNetCore.Mvc;
@@ -44,10 +45,11 @@ namespace Filminurk.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ActorsCreateUpdateViewModel vm)
         {
+            var dto = new ActorsDTO();
             if (ModelState.IsValid)
             {
-                var dto = new ActorsDTO()
-                {
+                
+                /*{
                     ID = vm.ID,
                     FirstName = vm.FirstName,
                     LastName = vm.LastName,
@@ -72,8 +74,26 @@ namespace Filminurk.Controllers
                         FilePath = x.FilePath,
                         MovieID = x.MovieID,
                         IsPoster = x.IsPoster,
-                    }).ToString()*/
-                };
+                    }).ToString()
+                };        */
+                dto.ID = vm.ID;
+                dto.FirstName = vm.FirstName;
+                dto.LastName = vm.LastName;
+                dto.NickName = vm.NickName;
+                dto.MoviesActedFor = vm.MoviesActedFor;
+                dto.ActorRating = vm.ActorRating;
+                dto.Gender = vm.Gender;
+                dto.FavoriteGenre = vm.FavoriteGenre;
+                dto.Files = vm.Files;
+                /*dto.PortraitID = Guid.Parse(vm.PortraitID);
+                dto.Images = vm.Images.Select(x => new FileToApiDTO
+                {
+                    ImageID = x.ImageID,
+                    FilePath = x.FilePath,
+                    MovieID = x.MovieID,
+                    IsPoster = x.IsPoster,
+                }).ToArray();*/
+            }
                 var result = await _actorsServices.Create(dto);
                 if (result == null)
                 {
@@ -85,10 +105,6 @@ namespace Filminurk.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-
-            return RedirectToAction(nameof(Index));
-
-        }
 
         [HttpGet]
         public async Task<IActionResult> Details(Guid id)

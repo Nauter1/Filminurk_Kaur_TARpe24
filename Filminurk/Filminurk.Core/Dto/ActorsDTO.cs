@@ -17,8 +17,8 @@ namespace Filminurk.Core.Dto
         public List<string>? MoviesActedFor { get; set; }
         public Guid? PortraitID { get; set; }
 
-        public List<IFormFile> Files { get; set; }
-        public IEnumerable<FileToApiDTO> Images { get; set; } = new List<FileToApiDTO>();
+        public List<IFormFile>? Files { get; set; }
+        public IEnumerable<FileToApiDTO>? Images { get; set; } = new List<FileToApiDTO>();
 
         /* Kolm minu mõeldud asju */
         public int? ActorRating { get; set; }
