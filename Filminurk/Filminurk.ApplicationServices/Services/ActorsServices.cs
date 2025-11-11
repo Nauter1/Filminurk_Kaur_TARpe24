@@ -75,26 +75,26 @@ namespace Filminurk.ApplicationServices.Services
             return actors;
         }
 
-        /*public async Task<Actors> Delete(Guid id)
+        public async Task<Actors> Delete(Guid id)
         {
 
             var result = await _context.Actors
                 .FirstOrDefaultAsync(m => m.ID == id);
 
-            var images = await _context.FilesToApi
-                .Where(x => x.ActorID == id)
+            /*var images = await _context.FilesToApi
+                .Where(x => x.ID == id)
                 .Select(y => new FileToApiDTO
                 {
                     ImageID = y.ImageID,
                     MovieID = y.MovieID,
                     FilePath = y.ExistingFilePath
-                }).ToArrayAsync();
+                }).ToArrayAsync();*/
 
-            await _filesServices.RemoveImagesFromApi(images);
-            _context.Movies.Remove(result);
+            //await _filesServices.RemoveImagesFromApi(images);
+            _context.Actors.Remove(result);
             await _context.SaveChangesAsync();
 
             return result;
-        } */
+        }
     }
 }
