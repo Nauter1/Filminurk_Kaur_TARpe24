@@ -148,7 +148,7 @@ namespace Filminurk.Controllers
             vm.ActorRating = actors.ActorRating;
             vm.Gender = actors.Gender;
             vm.FavoriteGenre = actors.FavoriteGenre;
-            vm.PortraitID = actors.PortraitID;
+            vm.PortraitID = actors.PortraitID?.ToString();
             vm.EntryCreatedAt = actors.EntryCreatedAt;
             vm.EntryModifiedAt = actors.EntryModifiedAt;
             return View("CreateUpdate", vm);
@@ -166,7 +166,10 @@ namespace Filminurk.Controllers
                 ActorRating = vm.ActorRating,
                 Gender = vm.Gender,
                 FavoriteGenre = vm.FavoriteGenre,
-                PortraitID = Guid.Parse(vm.PortraitID)
+                PortraitID = string.IsNullOrEmpty(vm.PortraitID)
+                ? (Guid?)null
+                : Guid.Parse(vm.PortraitID) 
+                /* ma ei olnud kindel miks see ei lubanud update..*/
                 /*.Select(x => new FileToApiDTO
                 {
                     ImageID = x.ImageID,
