@@ -16,8 +16,8 @@ namespace Filminurk.Core.Dto
         public int CommentedScore { get; set; }
         public int IsHelpful { get; set; }
         public int IsHarmFul { get; set; }
-        public DateTime CommentCreatedAt { get; set; }
-        public DateTime CommentModifiedAt { get; set; }
+        public DateTime? CommentCreatedAt { get; set; }
+        public DateTime? CommentModifiedAt { get; set; }
         public DateTime? CommentDeletedAt { get; set; }
     }
 }
