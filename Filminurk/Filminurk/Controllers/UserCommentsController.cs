@@ -82,5 +82,28 @@ namespace Filminurk.Controllers
             commentVM.CommentDeletedAt = requestedComment.CommentDeletedAt;
             return View(commentVM);
         }
+        [HttpGet]
+        public async Task<IActionResult> DeleteAdmin(Guid id)
+        {
+            var deleteEntry = await _userCommentsServices.DetailAsync(id);
+                if (deleteEntry == null) { return NotFound(); }
+
+            var commentVM = new UserCommentIndexViewModel();
+            commentVM.CommentID = deleteEntry.CommentID;
+            commentVM.CommentBody = deleteEntry.CommentBody;
+            commentVM.CommenterUserID = deleteEntry.CommenterUserID;
+            commentVM.CommentedScore = deleteEntry.CommentedScore;
+            commentVM.CommentCreatedAt = deleteEntry.CommentCreatedAt;
+            commentVM.CommentModifiedAt = deleteEntry.CommentModifiedAt;
+            commentVM.CommentDeletedAt = deleteEntry.CommentDeletedAt;
+            return View(commentVM);
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteAdminPost(Guid id)
+        {
+            var deleteThisComment = await _userCommentsServices.Delete(id);
+            if (deleteThisComment == null) { return NotFound(); }
+            return RedirectToAction("Index");
+        }
     }
 }
