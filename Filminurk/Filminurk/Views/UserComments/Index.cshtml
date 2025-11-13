@@ -20,6 +20,7 @@
 					<th scope="col">CommentBody</th>
 					<th scope="col">IsHarmful</th>
 					<th scope="col">CommentCreatedAt</th>
+					<th scope="col">Tools</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -28,10 +29,11 @@
 					<tr>
 						<td>@rowNumber</td>
 						<td>@comment.CommentID</td>
+						<td>@comment.CommentBody</td>
 						<td>@comment.IsHarmFul</td>
 						<td>@comment.CommentCreatedAt</td>
 						<td>
-							<a asp-action="CommentDetails" asp-controller="UserComments" asp-route-id="@comment.CommentID" class="btn btn-primary">Details</a>
+							<a asp-action="DetailsAdmin" asp-controller="UserComments" asp-route-id="@comment.CommentID" class="btn btn-primary">Details</a>
 							<a asp-action="DeleteComment" asp-controller="UserComments" asp-route-id="@comment.CommentID" class="btn btn-primary">Delete</a>
 						</td>
 					</tr>
