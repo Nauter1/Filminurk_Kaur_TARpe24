@@ -1,5 +1,8 @@
-﻿using Filminurk.Data;
+﻿using Filminurk.Core.Dto;
+using Filminurk.Core.ServiceInterface;
+using Filminurk.Data;
 using Filminurk.Models.FavoriteLists;
+using Filminurk.Models.Movies;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Filminurk.Controllers
@@ -7,7 +10,7 @@ namespace Filminurk.Controllers
     public class FavoriteListsController : Controller
     {
         private readonly FilminurkTARpe24Context _context;
-        // flservice add later
+        private readonly IFavoriteListsServices _favoriteListsServices;
         // fileservice add later
         public FavoriteListsController( FilminurkTARpe24Context context )
         {
@@ -38,6 +41,64 @@ namespace Filminurk.Controllers
                 })
             });
             return View(resultingLists);
+        }
+        /* create get, create post */
+        [HttpGet]
+        public IActionResult Create() 
+        {
+            var movies = _context.Movies.OrderBy(m=>m.Title).Select(mo => new MoviesIndexViewModel
+            {
+                ID = mo.ID,
+                Title = mo.Title,
+                CurrentRating = mo.CurrentRating,
+                FirstPublished = mo.FirstPublished,
+                Genre = mo.Genre,
+            }).ToList();
+            ViewData["allmovies"] = movies;
+            ViewData["userHasSelected"] = new List<string>();
+            //TODO IDENTIFY USER
+            FavoriteListUserCreateViewModel vm = new();
+            return View("UserCreate", vm);
+        }
+        [HttpPost]
+        public async Task<IActionResult> UserCreate(FavoriteListUserCreateViewModel vm, List<string> userHasSelected, List<MoviesIndexViewModel> movies)
+        {
+            List<Guid> tempParse = new();
+            foreach (var stringID in userHasSelected)
+            {
+                tempParse.Add(Guid.Parse(stringID));
+            }
+            var newListDto = new FavoriteListDTO() { };
+            newListDto.ListName = vm.ListName;
+            newListDto.Description = vm.Description;
+            newListDto.IsMovieOrActor = vm.IsMovieOrActor;
+            newListDto.IsPrivate = vm.IsPrivate;
+            newListDto.ListCreatedAt = DateTime.UtcNow;
+            newListDto.ListBelongsToUser = "00000000-0000-0000-0000-000000000001";
+            newListDto.ListModifiedAt = DateTime.UtcNow;
+            newListDto.ListDeletedAt = vm.ListDeletedAt;
+
+            List<Guid> convertedIDs = new List<Guid>();
+            if (newListDto.ListOfMovies != null)
+            {
+                convertedIDs = MovieToId(newListDto.ListOfMovies);
+            }
+            var newList = await _favoriteListsServices.Create(newListDto,convertedIDs);
+            if (newList != null)
+            {
+                return BadRequest();
+            }
+            return RedirectToAction("Index", vm);
+        }
+
+        private List<Guid> MovieToId(List<MovieDeleteViewModel> ListOfMovies)
+        {
+            var result = new List<Guid>();
+            foreach (var movie in ListOfMovies)
+            {
+                result.Add(movie.ID);
+            }
+            return result;
         }
     }
 }
