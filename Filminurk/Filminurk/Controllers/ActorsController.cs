@@ -25,25 +25,25 @@ namespace Filminurk.Controllers
         public IActionResult Index()
         {
             var result = _context.Actors.Select(x => new ActorsIndexViewModel
-            {
-                ID = x.ID,
-                FirstName = x.FirstName,
-                LastName = x.LastName,
-                NickName = x.NickName,
-                ActorRating = x.ActorRating,
-                Gender = x.Gender,
-                FavoriteGenre = x.FavoriteGenre
-            });
-            return View(result);
-        }
-        [HttpGet]
-        public IActionResult Create()
-        {
-            ActorsCreateUpdateViewModel result = new();
-            return View("CreateUpdate", result);
-        }
-        [HttpPost]
-        public async Task<IActionResult> Create(ActorsCreateUpdateViewModel vm)
+            {                                                                       
+                ID = x.ID,                                                          
+                FirstName = x.FirstName,                                            
+                LastName = x.LastName,                                              
+                NickName = x.NickName,                                              
+                ActorRating = x.ActorRating,                                        
+                Gender = x.Gender,                                                  
+                FavoriteGenre = x.FavoriteGenre                                     
+            });                                                                     
+            return View(result);                                                    
+        }                                                                           
+        [HttpGet]                                                                   
+        public IActionResult Create()                                               
+        {                                                                           
+            ActorsCreateUpdateViewModel result = new();                             
+            return View("CreateUpdate", result);                                    
+        }                                                                           
+        [HttpPost]                                                                  
+        public async Task<IActionResult> Create(ActorsCreateUpdateViewModel vm)     
         {
             var dto = new ActorsDTO();
             if (ModelState.IsValid)
