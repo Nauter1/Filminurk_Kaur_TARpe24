@@ -1,4 +1,5 @@
-﻿using Filminurk.Core.Dto;
+﻿using Filminurk.Core.Domain;
+using Filminurk.Core.Dto;
 using Filminurk.Core.ServiceInterface;
 using Filminurk.Data;
 using Filminurk.Models.FavoriteLists;
@@ -78,12 +79,22 @@ namespace Filminurk.Controllers
             newListDto.ListModifiedAt = DateTime.UtcNow;
             newListDto.ListDeletedAt = vm.ListDeletedAt;
 
+            var listofmoviestoadd = new List<Movie>();
+            foreach (var movieId in tempParse)
+            {
+                var thismovie = _context.Movies.Where(tm => tm.ID == movieId).ToArray().Take(1);
+                listofmoviestoadd.Add((Movie)thismovie);
+            }
+            newListDto.ListOfMovies = listofmoviestoadd;
+            
+            /*
             List<Guid> convertedIDs = new List<Guid>();
             if (newListDto.ListOfMovies != null)
             {
                 convertedIDs = MovieToId(newListDto.ListOfMovies);
             }
-            var newList = await _favoriteListsServices.Create(newListDto,convertedIDs);
+            */
+            var newList = await _favoriteListsServices.Create(newListDto/*convertedIDs*/);
             if (newList != null)
             {
                 return BadRequest();
@@ -91,12 +102,12 @@ namespace Filminurk.Controllers
             return RedirectToAction("Index", vm);
         }
 
-        private List<Guid> MovieToId(List<MovieDeleteViewModel> ListOfMovies)
+        private List<Guid> MovieToId(List<Movie> ListOfMovies)
         {
             var result = new List<Guid>();
             foreach (var movie in ListOfMovies)
             {
-                result.Add(movie.ID);
+                result.Add((Guid)movie.ID);
             }
             return result;
         }

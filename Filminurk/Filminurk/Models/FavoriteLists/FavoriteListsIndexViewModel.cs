@@ -8,7 +8,7 @@ namespace Filminurk.Models.FavoriteLists
     public class FavoriteListsIndexViewModel
     {
         [Key]
-        public Guid FavoriteListID { get; set; }
+        public Guid? FavoriteListID { get; set; }
         public string ListBelongsToUser { get; set; }
         public bool IsMovieOrActor { get; set; }
         public string ListName { get; set; }

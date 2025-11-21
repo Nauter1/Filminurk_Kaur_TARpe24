@@ -6,6 +6,7 @@
 }
 @* check for editing or creating *@
 <h1>Tee uus nimekiri</h1>
+
 <div>
 	<form method="post" enctype="multipart/form-data">
 		<input asp-for="FavoriteListID" type="hidden" />
@@ -35,28 +36,39 @@
 
 		@if(allMoviesTickboxes == null)
 		{
-			@:Filme andmebaasis ei ole	
+			<tr>Filme andmebaasis ei ole</tr>
 		}
-		else{
-			foreach(var movie in ViewBag.allmovies)
+		else
+		{
+			foreach(var movie in allMoviesTickboxes)
 			{
 				<tr>
 					<td>@movie.Title</td>
 					<td>@movie.FirstPublished</td>
 					<td>@movie.Genre</td>
 					<td>
-						@if(movie.ID.hasValue)
+						@if (movie.ID.HasValue)
 						{
-							<input type="checkbox" name="userHasSelected" value="@movie.ID" id="checkbox-@movie.ID" @if(userHasSelected.Contains(movie.ID.ToString())) { @:checked}	/>
-							}
-							else
+							<input type="checkbox" 
+							name="userHasSelected" 
+							value="@movie.ID" 
+							id="checkbox-@movie.ID" 
+							@if (userHasSelected.Contains(movie.ID.ToString()))
 							{
-								<input type="checkbox" name="userHasSelected" value="@movie.ID" id="checkbox-@movie.ID" />
+								@:checked
 							}
-							</td>
+							/>
+						}
+						else
+						{
+							<input type="checkbox" name="userHasSelected" value="@movie.ID" id="checkbox-@movie.ID" />
+						}
+					</td>
+					<br/>
 				</tr>
 			}
-		}
+		}  
+	
 		<input asp-action="UserCreate" asp-controller="FavoriteLists" type="submit" class="btn btn-primary" value="Tee Nimekiri" />
 	</form>
 </div>
