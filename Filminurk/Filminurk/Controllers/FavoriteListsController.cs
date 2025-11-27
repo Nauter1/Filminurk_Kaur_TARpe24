@@ -13,9 +13,10 @@ namespace Filminurk.Controllers
         private readonly FilminurkTARpe24Context _context;
         private readonly IFavoriteListsServices _favoriteListsServices;
         // fileservice add later
-        public FavoriteListsController( FilminurkTARpe24Context context )
+        public FavoriteListsController( FilminurkTARpe24Context context, IFavoriteListsServices favoriteListsServices )
         {
             _context = context;
+            _favoriteListsServices = favoriteListsServices;
 
         }
         public IActionResult Index()
@@ -82,7 +83,7 @@ namespace Filminurk.Controllers
             var listofmoviestoadd = new List<Movie>();
             foreach (var movieId in tempParse)
             {
-                var thismovie = _context.Movies.Where(tm => tm.ID == movieId).ToArray().Take(1);
+                var thismovie = _context.Movies.Where(tm => tm.ID == movieId).ToArray().First();
                 listofmoviestoadd.Add((Movie)thismovie);
             }
             newListDto.ListOfMovies = listofmoviestoadd;
@@ -94,12 +95,41 @@ namespace Filminurk.Controllers
                 convertedIDs = MovieToId(newListDto.ListOfMovies);
             }
             */
-            var newList = await _favoriteListsServices.Create(newListDto/*convertedIDs*/);
-            if (newList != null)
+            var newList = await _favoriteListsServices.Create(newListDto/* ,convertedIDs*/);
+            if (newList == null)
             {
                 return BadRequest();
             }
             return RedirectToAction("Index", vm);
+        }
+
+        public async Task<IActionResult> UserDetails(Guid id, Guid thisuserid)
+        {
+            if (id == null || thisuserid == null)
+            {
+                return BadRequest();
+            }
+            var thisList = _context.FavoriteLists.Where(tl => tl.FavoriteListID == id && tl.ListBelongsToUser == thisuserid.ToString()).Select(stl => new FavoriteListUserDetailsViewModel
+            {
+                FavoriteListID = stl.FavoriteListID,
+                ListBelongsToUser = stl.ListBelongsToUser,
+                IsMovieOrActor = stl.IsMovieOrActor,
+                Description = stl.Description,
+                IsPrivate = stl.IsPrivate,
+                ListOfMovies = stl.ListOfMovies,
+                ListCreatedAt = stl.ListCreatedAt,
+                IsReported = stl.IsReported,
+                Image = _context.FilesToDatabase.Where(i => i.ListID == stl.FavoriteListID).Select(si => new FavoriteListsIndexImageViewModel
+                {
+                    ImageID = si.ImageID,
+                    ListID = si.ListID,
+                    ImageData = si.ImageData,
+                    ImageTitle = si.ImageTitle,
+                    Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(si.ImageData)),
+                }).ToList().First()
+            }).Take(1);
+            // add viewdata attribute here later, to discern between user and admin
+            return View("Details", (FavoriteListUserDetailsViewModel)thisList);
         }
 
         private List<Guid> MovieToId(List<Movie> ListOfMovies)
