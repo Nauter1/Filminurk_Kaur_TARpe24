@@ -23,7 +23,7 @@ namespace Filminurk.ApplicationServices.Services
         }
         public async Task<FavoriteList> DetailsAsync(Guid id)
         {
-            var result = await _context.FavoriteLists.FirstOrDefaultAsync(x => x.FavoriteListID == id);
+            var result = await _context.FavoriteLists.AsNoTracking().FirstOrDefaultAsync(x => x.FavoriteListID == id);
             return result;
         }
         public async Task<FavoriteList> Create(FavoriteListDTO dto/*, List<Movie> selectedMovies*/)
@@ -46,8 +46,36 @@ namespace Filminurk.ApplicationServices.Services
             } */
             return newList;
         }
-        public async Task<FavoriteList> Update()
+        public async Task<FavoriteList> Update(FavoriteListDTO updatedList, string typeOfMethod)
         {
+
+            FavoriteList updatedListInDB = new();
+
+            //
+            updatedListInDB.FavoriteListID = updatedList.FavoriteListID;
+            updatedListInDB.ListBelongsToUser = updatedList.ListBelongsToUser;
+            updatedListInDB.IsMovieOrActor = updatedList.IsMovieOrActor;
+            updatedListInDB.ListName = updatedList.ListName;
+            updatedListInDB.Description = updatedList.Description;
+            updatedListInDB.IsPrivate = updatedList.IsPrivate;
+            updatedListInDB.ListOfMovies = updatedList.ListOfMovies;
+            updatedListInDB.ListCreatedAt = updatedList.ListCreatedAt;
+            updatedListInDB.ListDeletedAt = updatedList.ListDeletedAt;
+            updatedListInDB.ListModifiedAt = updatedList.ListModifiedAt;
+            if (typeOfMethod == "Delete")
+            {
+                _context.FavoriteLists.Attach(updatedListInDB);
+                _context.Entry(updatedListInDB).Property(l => l.ListDeletedAt).IsModified = true;
+            }
+            if (typeOfMethod == "Private")
+            {
+                _context.FavoriteLists.Attach(updatedListInDB);
+                _context.Entry(updatedListInDB).Property(l => l.IsPrivate).IsModified = true;
+
+            }
+            _context.Entry(updatedListInDB).Property(l => l.ListModifiedAt).IsModified = true;
+            await _context.SaveChangesAsync();
+            return updatedListInDB;
 
         }
     }

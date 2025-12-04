@@ -49,22 +49,27 @@
 				{
 					@foreach (var list in Model)
 					{
-						<table>
-							<tr>
-								<td colspan="2">
-									<a asp-action="ListDetailsListOwner" asp-controller="FavoriteLists" asp-route-id="@list.FavoriteListID" asp-route-thisuserid="@list.ListBelongsToUser">@list.ListName</a>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									@foreach (var image in list.Image)
-									{
-										<partial name="_ImageIndex" model="image"/>
-									}
-								</td>
-								<td>@list.Description</td>
-							</tr>
-						</table>
+						if (list.ListDeletedAt == null)
+						{
+							<table>
+								<tr>
+									<td colspan="2">
+										<a asp-action="UserDetails" asp-controller="FavoriteLists" asp-route-id="@list.FavoriteListID" asp-route-thisuserid="@list.ListBelongsToUser">@list.ListName</a>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										
+										@foreach (var image in list.Image)
+										{
+											<partial name="_ImageIndex" model="image" />
+										}
+									</td>
+									<td>@list.Description</td>
+								</tr>
+							</table>
+						}
+
 						rowNumber++;
 					}
 				}
