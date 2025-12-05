@@ -4,24 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Filminurk.Core.Dto;
+using Filminurk.Core.ServiceInterface;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 using Environment = Filminurk.Data.Environment;
 
-/*
-     public class Environment
-    {
-        public static string smtpaddress = "smtp.gmail.com";
-        public static string gmailusername = "";
-        public static string gmailpassword = "";
-    }
- 
- */
-
 namespace Filminurk.ApplicationServices.Services
 {
-    public class EmailsServices
+    public class EmailsServices : IEmailsServices
     {
         private readonly IConfiguration _configuration;
         public EmailsServices(IConfiguration configuration)
