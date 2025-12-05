@@ -13,8 +13,8 @@ using Environment = Filminurk.Data.Environment;
      public class Environment
     {
         public static string smtpaddress = "smtp.gmail.com";
-        public static string gmailusername = "Kaur.Pakaste";
-        public static string gmailpassword = "nneo ywpu psme tfww";
+        public static string gmailusername = "";
+        public static string gmailpassword = "";
     }
  
  */
