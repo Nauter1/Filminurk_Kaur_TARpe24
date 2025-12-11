@@ -7,6 +7,7 @@ using Filminurk.Core.Domain;
 using Filminurk.Core.Dto.AccountsDTOs;
 using Filminurk.Core.ServiceInterface;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Filminurk.ApplicationServices.Services
 {
@@ -37,6 +38,12 @@ namespace Filminurk.ApplicationServices.Services
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 // HOMEWORK LOCATION?? D:
             }
+            return user;
+        }
+        // HOMEWORK LOCATION
+        public async Task<ApplicationUser> Login(LoginDTO userDTO)
+        {
+            var user = await _userManager.FindByEmailAsync(userDTO.Email);
             return user;
         }
     }
