@@ -8,7 +8,7 @@ using Filminurk.Core.Dto.AccountsDTOs;
 
 namespace Filminurk.Core.ServiceInterface
 {
-    public interface IAccountServices
+    public interface IAccountsServices
     {
         Task<ApplicationUser> Register(ApplicationUserDTO userDTO);
     }

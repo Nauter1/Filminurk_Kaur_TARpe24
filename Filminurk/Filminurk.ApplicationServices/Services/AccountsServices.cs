@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Filminurk.ApplicationServices.Services
 {
-    public class AccountsServices
+    public class AccountsServices : IAccountsServices
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -29,7 +29,7 @@ namespace Filminurk.ApplicationServices.Services
                 UserName = userDTO.Username,
                 Email = userDTO.Email,
                 ProfileType = userDTO.ProfileType,
-                DisplayName = userDTO.AvatarName,
+                AvatarName = userDTO.AvatarName,
             };
             var result = await _userManager.CreateAsync(user, userDTO.Password);
             if (result.Succeeded)
