@@ -179,9 +179,11 @@ namespace Filminurk.Controllers
             {
                 var user = new ApplicationUser()
                 {
-                    UserName = model.DisplayName,
+                    UserName = model.Email,
                     Email = model.Email,
                     ProfileType = model.ProfileType,
+                    AvatarName = model.DisplayName,
+                    AvatarImageID = Guid.NewGuid().ToString(),
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -191,7 +193,7 @@ namespace Filminurk.Controllers
                     // HOMEWORK TASK: Koosta email kasutajalt pärineva aadressile saatmiseks, kasutaja saab oma postkastist kätte emaili
                     // kinituslingiga, mille jaoks kasutatakse tokenit. siin tuleb välja kutsuda vastav, uus, emaili saatmise meetod, mis saadab
                     // õige sisuga kirja
-                    return BadRequest();
+                    return RedirectToAction("Index", "Home");
                 }
                 return RedirectToAction("Index", "Home");
             }

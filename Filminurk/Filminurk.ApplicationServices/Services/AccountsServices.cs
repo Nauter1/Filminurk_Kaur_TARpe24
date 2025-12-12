@@ -27,7 +27,7 @@ namespace Filminurk.ApplicationServices.Services
         {
             var user = new ApplicationUser
             {
-                UserName = userDTO.Username,
+                UserName = userDTO.Email,
                 Email = userDTO.Email,
                 ProfileType = userDTO.ProfileType,
                 AvatarName = userDTO.AvatarName,

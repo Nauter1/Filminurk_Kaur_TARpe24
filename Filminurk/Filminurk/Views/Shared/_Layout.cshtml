@@ -41,6 +41,7 @@
                     <ul>
                         @if (signInManager.IsSignedIn(User))
                         {
+
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="FavoriteLists" asp-action="Index">Minu Lemmikute Nimekirjad</a>
                             </li>
@@ -53,10 +54,9 @@
                         else
                         {
                             <li class="nav-item">
-                                <form method="post" asp-controller="Accounts" asp-action="Register">
-                                    <button type="submit" class="nav-link btn btn-link" style="width:auto; padding:0.8rem;">Register</button>
-                                </form>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Accounts" asp-action="Register">Emails</a>
                             </li>
+
                             <li class="nav-item">
                                 <form method="post" asp-controller="Accounts" asp-action="Login">
                                     <button type="submit" class="nav-link btn btn-link" style="width:auto; padding:0.8rem;">Login</button>

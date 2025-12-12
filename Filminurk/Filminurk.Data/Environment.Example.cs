@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Filminurk.Data
 {
-    public class EnvironmentEx
+    public class Environment
     {
         public static string smtpaddress = "smtp.gmail.com"; // Server address for sending emails via smtp
         public static string gmailusername = "";

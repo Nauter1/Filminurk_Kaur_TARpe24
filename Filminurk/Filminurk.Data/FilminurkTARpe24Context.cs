@@ -1,5 +1,6 @@
 ﻿using Filminurk.Core.Domain;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Filminurk.Data
 {
-    public class FilminurkTARpe24Context : DbContext
+    public class FilminurkTARpe24Context : IdentityDbContext<ApplicationUser>
     {
         public FilminurkTARpe24Context(DbContextOptions<FilminurkTARpe24Context> options) : base(options) { }
         public DbSet<Movie> Movies { get; set; }
@@ -19,5 +20,6 @@ namespace Filminurk.Data
         public DbSet<FavoriteList> FavoriteLists { get; set; }
         public DbSet<FileToDatabase> FilesToDatabase { get; set; }
         public DbSet<IdentityRole> IdentityRoles { get; set; }
+        //public DbSet<ApplicationUser> AppliationUsers { get; set; }
     }
 }
