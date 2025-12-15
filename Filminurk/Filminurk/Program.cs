@@ -2,12 +2,15 @@ using Filminurk.ApplicationServices.Services;
 using Filminurk.Core.Domain;
 using Filminurk.Core.ServiceInterface;
 using Filminurk.Data;
+using Filminurk.Views.SignalRChat;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddRazorPages();
+builder.Services.AddSignalR();
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IMovieServices, MovieServices>();
 builder.Services.AddScoped<IFilesServices, FileServices>();
@@ -47,5 +50,6 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
+app.MapRazorPages();
+app.MapHub<ChatHub>("/chatHub");
 app.Run();

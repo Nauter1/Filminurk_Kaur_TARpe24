@@ -13,6 +13,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Owin" Version="4.2.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="SignalRChat\" />
     <Folder Include="wwwroot\lib\defaultassets\image\" />
   </ItemGroup>
 
