@@ -11,5 +11,6 @@ namespace Filminurk.Data
         public static string smtpaddress = "smtp.gmail.com"; // Server address for sending emails via smtp
         public static string gmailusername = "";
         public static string gmailpassword = "";
+        public static string accuweatherkey = "";
     }
 }
