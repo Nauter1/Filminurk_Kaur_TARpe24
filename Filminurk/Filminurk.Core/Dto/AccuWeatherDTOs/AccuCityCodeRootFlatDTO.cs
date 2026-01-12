@@ -7,7 +7,7 @@ using Microsoft.Extensions.Diagnostics.Metrics;
 
 namespace Filminurk.Core.Dto.AccuWeatherDTOs
 {
-    public class AccuCityCodeRootDTO
+    public class AccuCityCodeRootFlatDTO
     {
         public int Version { get; set; }
         public string Key { get; set; } = string.Empty;
@@ -25,68 +25,29 @@ namespace Filminurk.Core.Dto.AccuWeatherDTOs
         public SupplementalAdminArea[]? SupplementalAdminAreas { get; set; }
         public string[]? DataSets { get; set; }
         
-    }
+        public string Id { get; set; } = string.Empty;
 
-    public class Region
-    {
-        public string Id { get; set; } = string.Empty;
-        public string LocalizedName { get; set; } = string.Empty;
-        public string EnglishName { get; set; } = string.Empty;
-    }
-    public class Country
-    {
-        public string Id { get; set; } = string.Empty;
-        public string LocalizedName { get; set; } = string.Empty;
-        public string EnglishName { get; set; } = string.Empty;
-    }
-    public class  AdministrativeArea
-    {
-        public string Id { get; set; } = string.Empty;
-        public string LocalizedName { get; set; } = string.Empty;
-        public string EnglishName { get; set; } = string.Empty;
         public int Level { get; set; }
         public string LocalizedType { get; set; } = string.Empty;
         public string EnglishType { get; set; } = string.Empty;
         public string CountryID { get; set; } = string.Empty;
 
-    }
-    public class SupplementalAdminArea 
-    {
-        public int Level { get; set; }
-        public string LocalizedName { get; set; } = string.Empty;
-        public string EnglishName { get; set; } = string.Empty;
-    }
-    public class GeoPosition
-    {
         public float Latitude { get; set; }
         public float Longitude { get; set; }
         public Elevation? Elevation { get; set; }
 
-    }
-    public class TimeZone
-    {
         public string Code { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
-        public double GmtOffset { get; set; }
+        public int GmtOffset { get; set; }
         public bool IsDaylightSaving { get; set; }
         public DateTime NextOffsetChange { get; set; }
-    }
 
-    public class  Elevation
-    {
         public Metric? Metric { get; set; }
         public Imperial? Imperial { get; set; }
-    }
-    public class Metric
-    {
+
         public int Value { get; set; }
-        public string Unit { get; set; } = string.Empty;
+        public int Unit { get; set; }
         public int UnitType { get; set; }
-    }
-    public class Imperial
-    {
-        public int Value { get; set; }
-        public string Unit { get; set; } = string.Empty;
-        public int UnitType { get; set; }
+
     }
 }

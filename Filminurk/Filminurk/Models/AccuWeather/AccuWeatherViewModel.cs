@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Filminurk.Core.Dto.AccuWeatherDTOs
+﻿namespace Filminurk.Models.AccuWeather
 {
-    public class AccuLocationWeatherResultDTO
+    public class AccuWeatherViewModel
     {
         public string CityName { get; set; } = string.Empty;
         public string CityCode { get; set; } = string.Empty;
-        
+
         public string EffectiveDate { get; set; } = string.Empty;
         public long EffectiveEpochDate { get; set; }
         public int Severity { get; set; }
