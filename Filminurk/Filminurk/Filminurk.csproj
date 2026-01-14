@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Omdbapi\" />
     <Folder Include="wwwroot\lib\defaultassets\image\" />
   </ItemGroup>
 

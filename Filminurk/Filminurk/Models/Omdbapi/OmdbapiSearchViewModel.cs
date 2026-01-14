@@ -1,7 +1,7 @@
-﻿namespace Filminurk.Models.AccuWeather
+﻿namespace Filminurk.Models.Omdbapi
 {
-    public class AccuWeatherSearchViewModel
+    public class OmdbapiSearchViewModel
     {
-        public string CityName { get; set; } = string.Empty;
+        public string Title { get; set; }
     }
 }

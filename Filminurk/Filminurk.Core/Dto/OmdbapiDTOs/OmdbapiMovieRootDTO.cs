@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Filminurk.Core.Dto.OpenAPIMovieDTO
+namespace Filminurk.Core.Dto.OmdbapiDTOs
 {
     // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
     public class Rating
