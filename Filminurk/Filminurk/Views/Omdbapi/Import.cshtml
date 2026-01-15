@@ -1,5 +1,64 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model Filminurk.Models.Omdbapi.OmdbapiViewModel
+
+<div class="container">
+	<h2>Preview: @Model.Title</h2>
+	<hr />
+	<dl class="row text-dark">
+		<div>
+			<dt class="col-sm 2">
+				Title:
+			</dt>
+			<dd>
+				@Html.DisplayFor(Model => Model.Title)
+			</dd>
+		</div>
+		<div>
+			<dt class="col-sm 2">
+				Released:
+			</dt>
+			<dd>
+				@Html.DisplayFor(Model => Model.Released)
+			</dd>
+		</div>
+		<div>
+			<dt class="col-sm 2">
+				Genre:
+			</dt>
+			<dd>
+				@Html.DisplayFor(Model => Model.Genre)
+			</dd>
+		</div>
+		<div>
+			<dt class="col-sm 2">
+				Rating:
+			</dt>
+			<dd>
+				@Html.DisplayFor(Model => Model.imdbRating)
+			</dd>
+		</div>
+		<div>
+			<dt class="col-sm 2">
+				Actors:
+			</dt>
+			<dd>
+				@Html.DisplayFor(Model => Model.Actors)
+			</dd>
+		</div>
+		<div>
+			<dt class="col-sm 2">
+				Director:
+			</dt>
+			<dd>
+				@Html.DisplayFor(Model => Model.Director)
+			</dd>
+		</div>
+		<div>
+			<dt class="col-sm 2">
+				Description:
+			</dt>
+			<dd>
+				@Html.DisplayFor(Model => Model.Plot)
+			</dd>
+		</div>
+	</dl>
+</div>

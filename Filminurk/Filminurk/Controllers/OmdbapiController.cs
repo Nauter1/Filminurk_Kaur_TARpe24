@@ -1,5 +1,7 @@
-﻿using Filminurk.Core.Dto.OmdbapiDTOs;
+﻿using Filminurk.Core.Domain;
+using Filminurk.Core.Dto.OmdbapiDTOs;
 using Filminurk.Core.ServiceInterface;
+using Filminurk.Data.Migrations;
 using Filminurk.Models.Omdbapi;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,45 +28,32 @@ namespace Filminurk.Controllers
         }
         
         [HttpGet]
-        public IActionResult City(string title)
+        public IActionResult Import(string title)
         {
             OmdbapiMovieResultDTO dto = new();
             dto.Title = title;
             _omdbapiServices.OmdbapiResult(dto);
             OmdbapiViewModel vm = new();
-
-            /*vm.EffectiveDate = dto.EffectiveDate;
-            vm.EffectiveEpochDate = dto.EffectiveEpochDate;
-            vm.Severity = dto.Severity;
-            vm.Text = dto.Text;
-            vm.Category = dto.Category;
-            vm.EndDate = dto.EndDate;
-            vm.EndEpochDate = dto.EndEpochDate;
-            vm.DailyForecastsEpochDate = dto.DailyForecastsEpochDate;
-            vm.DailyForecastsDate = dto.DailyForecastsDate;
-
-            vm.TempMinValue = dto.TempMinValue;
-            vm.TempMinUnit = dto.TempMinUnit;
-            vm.TempMinUnitType = dto.TempMinUnitType;
-
-            vm.TempMaxValue = dto.TempMaxValue;
-            vm.TempMaxUnit = dto.TempMaxUnit;
-            vm.TempMaxUnitType = dto.TempMaxUnitType;
-
-            vm.DayIcon = dto.DayIcon;
-            vm.DayIconPhrase = dto.DayIconPhrase;
-            vm.DayHasPrecipitation = dto.DayHasPrecipitation;
-            vm.DayPrecipitationType = dto.DayPrecipitationType;
-            vm.DayPrecipitationIntensity = dto.DayPrecipitationIntensity;
-
-            vm.NightIcon = dto.NightIcon;
-            vm.NightIconPhrase = dto.NightIconPhrase;
-            vm.NightHasPrecipitation = dto.NightHasPrecipitation;
-            vm.NightPrecipitationType = dto.NightPrecipitationType;
-            vm.NightPrecipitationIntensity = dto.NightPrecipitationIntensity;
-
-            vm.MobileLink = dto.MobileLink;
-            vm.Link = dto.Link;       */
+            //vm.ID = movie.ID;
+            vm.Title = dto.Title;
+            vm.Released = dto.Released;
+            if (Genre.IsDefined(typeof(Genre),dto.Genre))
+            {
+                vm.Genre = dto.Genre;
+            }
+            else
+            {
+                vm.Genre = "Other";
+            }
+            vm.imdbRating = dto.imdbRating;
+            //vm.Warnings = movie.Warnings;
+            vm.Actors = dto.Actors;
+            //vm.EntryCreatedAt = movie.EntryCreatedAt;
+            //vm.EntryModifiedAt = movie.EntryModifiedAt;
+            vm.Director = dto.Director;
+            //vm.Tagline = movie.Tagline;
+            vm.Plot = dto.Plot;
+            //vm.Images.AddRange(images);
             return View(vm);
         }                                
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Filminurk.Core.Domain;
 using Filminurk.Core.Dto.OmdbapiDTOs;
 using Filminurk.Core.ServiceInterface;
 
@@ -13,18 +14,17 @@ namespace Filminurk.ApplicationServices.Services
     {
         public async Task<OmdbapiMovieResultDTO> OmdbapiResult(OmdbapiMovieResultDTO dto)
         {
-            string apikey = Filminurk.Data.Environment.accuweatherkey;
-            var baseUrl = "https://dataservice.accuweather.com/forecasts/v1/daily/1day/";
-            var cityUrl = $"https://dataservice.accuweather.com/locations/v1/cities/search";
+            string apikey = Filminurk.Data.Environment.omdbapikey;
+            var baseUrl = "http://www.omdbapi.com/";
 
             using (var httpClient = new HttpClient())
             {
-                httpClient.BaseAddress = new Uri(cityUrl);
+                httpClient.BaseAddress = new Uri(baseUrl);
                 httpClient.DefaultRequestHeaders.Accept.Clear();
                 httpClient.DefaultRequestHeaders.Accept.Add(
                     new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json")
                 );
-                var response = httpClient.GetAsync($"?q={dto.Title}&apikey={apikey}&details=true").GetAwaiter().GetResult();
+                var response = httpClient.GetAsync($"?t={dto.Title}&apikey={apikey}").GetAwaiter().GetResult();
                 var jsonResponse = await response.Content.ReadAsStringAsync();
                 try
                 {
@@ -36,7 +36,7 @@ namespace Filminurk.ApplicationServices.Services
                     Console.WriteLine(ex.Message);
                 }
             }
-            string omdbResponse = baseUrl + $"{dto.Title}?apikey={apikey}";
+            string omdbResponse = baseUrl + $"?t={dto.Title}&apikey={apikey}";
 
             using (var clientWeather = new HttpClient())
             {
@@ -44,6 +44,15 @@ namespace Filminurk.ApplicationServices.Services
                 string jsonOmdb = await httpResponseOmdb.Content.ReadAsStringAsync();
 
                 Root omdbRootDTO = JsonSerializer.Deserialize<Root>(jsonOmdb);
+
+                dto.Title = omdbRootDTO.Title;
+                dto.Released = omdbRootDTO.Released;
+                dto.Genre = omdbRootDTO.Genre;
+                dto.imdbRating = omdbRootDTO.imdbRating;
+                dto.Actors = omdbRootDTO.Actors;
+                dto.Director = omdbRootDTO.Director;
+                dto.Plot = omdbRootDTO.Plot;
+                
 
                 /*dto.EffectiveDate = weatherRootDTO.Headline.EffectiveDate;
                 dto.EffectiveEpochDate = weatherRootDTO.Headline.EffectiveEpochDate;
