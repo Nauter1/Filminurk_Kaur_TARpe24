@@ -27,5 +27,6 @@ namespace Filminurk.Core.Dto
         /* Andmebaasi jaoks vajalikud */
         public DateTime? EntryCreatedAt { get; set; }
         public DateTime? EntryModifiedAt { get; set; }
+
     }
 }

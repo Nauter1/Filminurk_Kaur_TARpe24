@@ -7,11 +7,20 @@ using System.Threading.Tasks;
 using Filminurk.Core.Domain;
 using Filminurk.Core.Dto.OmdbapiDTOs;
 using Filminurk.Core.ServiceInterface;
+using Filminurk.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Filminurk.ApplicationServices.Services
 {
     public class OmdbServices : IOmdbapiServices
     {
+        private readonly FilminurkTARpe24Context _context;
+        public OmdbServices(FilminurkTARpe24Context context)
+        {
+            _context = context;
+        }
+
+
         public async Task<OmdbapiMovieResultDTO> OmdbapiResult(OmdbapiMovieResultDTO dto)
         {
             string apikey = Filminurk.Data.Environment.omdbapikey;
@@ -24,7 +33,7 @@ namespace Filminurk.ApplicationServices.Services
                 httpClient.DefaultRequestHeaders.Accept.Add(
                     new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json")
                 );
-                var response = httpClient.GetAsync($"?t={dto.Title}&apikey={apikey}").GetAwaiter().GetResult();
+                var response = httpClient.GetAsync($"?apikey={apikey}&t={dto.Title}").GetAwaiter().GetResult();
                 var jsonResponse = await response.Content.ReadAsStringAsync();
                 try
                 {
@@ -52,44 +61,27 @@ namespace Filminurk.ApplicationServices.Services
                 dto.Actors = omdbRootDTO.Actors;
                 dto.Director = omdbRootDTO.Director;
                 dto.Plot = omdbRootDTO.Plot;
-                
-
-                /*dto.EffectiveDate = weatherRootDTO.Headline.EffectiveDate;
-                dto.EffectiveEpochDate = weatherRootDTO.Headline.EffectiveEpochDate;
-                dto.Severity = weatherRootDTO.Headline.Severity;
-                dto.Text = weatherRootDTO.Headline.Text;
-                dto.Category = weatherRootDTO.Headline.Category;
-                dto.EndDate = weatherRootDTO.Headline.EndDate;
-                dto.EndEpochDate = weatherRootDTO.Headline.EndEpochDate;
-
-                dto.MobileLink = weatherRootDTO.Headline.MobileLink;
-                dto.Link = weatherRootDTO.Headline.Link;
-
-                dto.DailyForecastsDate = weatherRootDTO.DailyForecasts[0].Date;
-                dto.DailyForecastsEpochDate = weatherRootDTO.DailyForecasts[0].EpochDate;
-
-                dto.TempMinValue = weatherRootDTO.DailyForecasts[0].Temperature.Minimum.Value;
-                dto.TempMinUnit = weatherRootDTO.DailyForecasts[0].Temperature.Minimum.Unit;
-                dto.TempMinUnitType = weatherRootDTO.DailyForecasts[0].Temperature.Minimum.UnitType;
-
-                dto.TempMaxValue = weatherRootDTO.DailyForecasts[0].Temperature.Maximum.Value;
-                dto.TempMaxUnit = weatherRootDTO.DailyForecasts[0].Temperature.Maximum.Unit;
-                dto.TempMaxUnitType = weatherRootDTO.DailyForecasts[0].Temperature.Maximum.UnitType;
-
-                dto.DayIcon = weatherRootDTO.DailyForecasts[0].Day.Icon;
-                dto.DayIconPhrase = weatherRootDTO.DailyForecasts[0].Day.IconPhrase;
-                dto.DayHasPrecipitation = weatherRootDTO.DailyForecasts[0].Day.HasPrecipitation;
-                dto.DayPrecipitationType = weatherRootDTO.DailyForecasts[0].Day.PrecipitationType;
-                dto.DayPrecipitationIntensity = weatherRootDTO.DailyForecasts[0].Day.PrecipitationIntensity;
-
-
-                dto.NightIcon = weatherRootDTO.DailyForecasts[0].Night.Icon;
-                dto.NightIconPhrase = weatherRootDTO.DailyForecasts[0].Night.IconPhrase;
-                dto.NightHasPrecipitation = weatherRootDTO.DailyForecasts[0].Night.HasPrecipitation;
-                dto.NightPrecipitationType = weatherRootDTO.DailyForecasts[0].Night.PrecipitationType;
-                dto.NightPrecipitationIntensity = weatherRootDTO.DailyForecasts[0].Night.PrecipitationIntensity;    */
             }
             return dto;
+        }
+
+        public Movie Create(OmdbapiMovieCreateDTO dto)
+        {
+            Movie movie = new Movie();
+            movie.ID = (Guid)dto.ID;
+            movie.Title = dto.Title;
+            movie.Description = dto.Description;
+            movie.FirstPublished = (DateOnly)dto.FirstPublished;
+            movie.CurrentRating = dto.CurrentRating;
+            movie.Actors = dto.Actors;
+            movie.Genre = dto.Genre;
+            movie.Director = dto.Director;
+            movie.EntryCreatedAt = DateTime.Now;
+            movie.EntryModifiedAt = DateTime.Now;
+
+            _context.Movies.AddAsync(movie);
+            _context.SaveChangesAsync();
+            return movie;
         }
 
     }

@@ -1,6 +1,7 @@
 ﻿@model Filminurk.Models.Omdbapi.OmdbapiViewModel
 
 <div class="container">
+	<form method="post" enctype="multipart/form-data">
 	<h2>Preview: @Model.Title</h2>
 	<hr />
 	<dl class="row text-dark">
@@ -61,4 +62,14 @@
 			</dd>
 		</div>
 	</dl>
+	<input asp-for="Title" type="hidden" />
+	<input asp-for="Released" type="hidden" />
+	<input asp-for="Genre" type="hidden" />
+	<input asp-for="imdbRating" type="hidden" />
+	<input asp-for="Actors" type="hidden" />
+	<input asp-for="Director" type="hidden" />
+	<input asp-for="Plot" type="hidden" />
+	<input asp-action="Import" asp-controller="Omdbapi" type="submit" class="btn btn-primary" value="Create" />
+	<a asp-action="Index" asp-controller="Omdbapi" class="btn btn-success">Return to Search</a>
+	</form>
 </div>
